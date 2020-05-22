@@ -4,6 +4,14 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<style type="text/css">
+ html body .is--visible { 
+    display: block;
+     }
+
+    .dot.bg-color {
+     background: #D42427;
+    } 
+
 		
 		.container { 
       position: relative;
@@ -54,8 +62,7 @@
 
 
 
-  <script type="text/javascript">
-
+  <script>
    const circles = document.getElementsByClassName("dot");
    const images = document.querySelectorAll(".swiping-image");
    let nextID;
@@ -64,25 +71,25 @@
 
 
        // circles click change
-       circles[0].style.backgroundColor='#D42427';
+       circles[0].classList.add('bg-color');
 
        for (var i = 0; i < circles.length; i++) {
         circles[i].setAttribute("data-id", i);
         circles[i].addEventListener("click", function() {
 
          for (var j = 0; j < circles.length; j++) {
-           circles[j].style.background="none";
+           circles[j].classList.remove('bg-color');
          }
 
-         this.style.backgroundColor="#D42427";
+         this.classList.add('bg-color');
          let id = this.getAttribute('data-id');
          
          for (let i = 0; i < images.length; i++) {
           if(i==id) {
-            images[i].style.display="block";
+            images[i].classList.add('is--visible');
           }
           else {
-            images[i].style.display="none";
+            images[i].classList.remove('is--visible');
           }
         }
 
@@ -92,9 +99,10 @@
 
 
       // firstPointOfTouch
+
       for (let i = 0; i < images.length; i++) {
         if(i==0) { 
-          images[i].style.display="block";
+          images[i].classList.add('is--visible');
         }
         images[i].setAttribute("data-id", i);
         images[i].addEventListener("touchstart",function(event){     
@@ -103,13 +111,14 @@
           
         });
 
+
         images[i].addEventListener("touchend",function(event){     
          var x2 = event.changedTouches[0].pageX;
          coor2 = x2; 
          sliderChange();
        });
 
-      }    //end of firstPointOfTouch
+      }    //end of Touch
 
       // Changing the slides      
       function sliderChange() {
@@ -117,13 +126,13 @@
         let id;
         if(coor2<coor) { 
           idCheck(1);
-          document.querySelector('[data-id="'+nextID+'"]').style.display="block";          
+          document.querySelector('[data-id="'+nextID+'"]').classList.add('is--visible');        
 
         }
 
         else  {
          idCheck(-1);
-         document.querySelector('[data-id="'+nextID+'"]').style.display="block";
+         document.querySelector('[data-id="'+nextID+'"]').classList.add('is--visible');
        }
 
        dotChecker();
@@ -136,7 +145,7 @@
 
      function idCheck(number){
       for (let i = 0; i < images.length; i++) {
-        if(images[i].style.display=="block") {   
+        if(images[i].classList.contains('is--visible')) {   
           id = parseInt(images[i].getAttribute('data-id'))+number;
           if(id==images.length){
             id=0;
@@ -147,7 +156,7 @@
           }
 
           nextID=id.toString();            
-          images[i].style.display="none";
+          images[i].classList.remove('is--visible');
 
         }
       }
@@ -156,14 +165,17 @@
     function dotChecker() {   
           for (let i = 0; i < circles.length; i++) {
             if(i==nextID) {
-              circles[i].style.backgroundColor="#D42427";
+              circles[i].classList.add('bg-color');
             }
             else {
-            circles[i].style.background="none";
+            circles[i].classList.remove('bg-color');
           }
 
           }
         }
+
+
+
 
   </script>
 
